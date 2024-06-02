@@ -1,28 +1,33 @@
-import { Model, DataTypes } from 'sequelize';
-import sequelize from './index';
+import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
-class Restaurant extends Model {}
+@Table({
+  tableName: 'Restaurants',
+  timestamps: true,
+})
+class Restaurant extends Model {
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  name!: string;
 
-Restaurant.init({
-  name: {
-    type: DataTypes.STRING,
+  @Column({
+    type: DataType.STRING,
     allowNull: false,
-  },
-  address: {
-    type: DataTypes.STRING,
+  })
+  address!: string;
+
+  @Column({
+    type: DataType.STRING,
     allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
+  })
+  email!: string;
+
+  @Column({
+    type: DataType.STRING,
     allowNull: false,
-  },
-  phone: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-}, {
-  sequelize: sequelize.sequelize,
-  modelName: 'Restaurant',
-});
+  })
+  phone!: string;
+}
 
 export default Restaurant;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebaseConfig.ts';
+import { Link } from 'react-router-dom';
+import { auth } from '../../firebaseConfig';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 
 const Login: React.FC = () => {
@@ -10,7 +11,6 @@ const Login: React.FC = () => {
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      alert('Logged in');
     } catch (error) {
       console.error('Error logging in:', error);
       alert('Failed to log in');
@@ -39,9 +39,18 @@ const Login: React.FC = () => {
           fullWidth
           margin="normal"
         />
-        <Button variant="contained" color="primary" onClick={handleLogin} fullWidth>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleLogin}
+          fullWidth
+          sx={{ mb: 2 }}
+        >
           Login
         </Button>
+        <Typography variant="body2">
+          Don't have an account? <Link to="/register">Register</Link>
+        </Typography>
       </Box>
     </Container>
   );

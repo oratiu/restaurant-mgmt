@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import apiClient from '../../api';
+import apiClient from '../api.ts';
 import { Card, CardContent, CardMedia, Typography, Grid, Container, Box } from '@mui/material';
 
 interface Restaurant {

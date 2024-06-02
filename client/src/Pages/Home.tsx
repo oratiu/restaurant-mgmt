@@ -1,5 +1,5 @@
 import React from 'react';
-import RestaurantList from '../Components/Organisms/RestaurantList';
+import RestaurantList from '../components/RestaurantList.tsx';
 
 const Home: React.FC = () => {
   return (

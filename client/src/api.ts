@@ -1,7 +1,23 @@
-import axios from 'axios';
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 
-const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+const httpLink = createHttpLink({
+  uri: 'http://localhost:5001/graphql', // Replace with your GraphQL endpoint
 });
 
-export default apiClient;
+const authLink = setContext((_, { headers }) => {
+  // Add authorization token to headers if needed
+  return {
+    headers: {
+      ...headers,
+      authorization: 'Bearer your-auth-token' || '',
+    },
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
+export default client;

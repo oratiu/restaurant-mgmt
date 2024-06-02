@@ -7,11 +7,7 @@ interface AuthProviderProps {
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  return (
-    <Provider authStore={authStore}>
-      {children}
-    </Provider>
-  );
+  return <Provider authStore={authStore}>{children}</Provider>;
 };
 
 export default AuthProvider;

@@ -19,7 +19,7 @@ class AuthStore {
   logout = async () => {
     await signOut(auth);
     this.currentUser = null;
-  }
+  };
 }
 
 const authStore = new AuthStore();

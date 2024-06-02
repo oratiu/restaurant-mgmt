@@ -20,6 +20,7 @@ const NavBar: React.FC = () => {
   };
 
   const handleLogout = () => {
+    localStorage.clear();
     authStore.logout();
   };
 

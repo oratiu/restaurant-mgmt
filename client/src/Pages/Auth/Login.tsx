@@ -1,21 +1,26 @@
-import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import React from 'react';
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
+  CircularProgress,
+  Alert,
+} from '@mui/material';
+import useLogin from '../../hooks/useLogin';
 import { Link } from 'react-router-dom';
-import { auth } from '../../firebaseConfig';
-import { TextField, Button, Container, Typography, Box } from '@mui/material';
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      console.error('Error logging in:', error);
-      alert('Failed to log in');
-    }
-  };
+  const {
+    email,
+    password,
+    setEmail,
+    setPassword,
+    handleLogin,
+    error,
+    loading,
+  } = useLogin();
 
   return (
     <Container maxWidth="sm">
@@ -39,14 +44,16 @@ const Login: React.FC = () => {
           fullWidth
           margin="normal"
         />
+        {error && <Alert severity="error">{error}</Alert>}
         <Button
           variant="contained"
           color="primary"
           onClick={handleLogin}
           fullWidth
-          sx={{ mb: 2 }}
+          disabled={loading}
+          sx={{ mt: 2 }}
         >
-          Login
+          {loading ? <CircularProgress size={24} /> : 'Login'}
         </Button>
         <Typography variant="body2">
           Don't have an account? <Link to="/register">Register</Link>

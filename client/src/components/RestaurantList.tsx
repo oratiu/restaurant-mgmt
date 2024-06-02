@@ -1,77 +1,99 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import apiClient from '../api.ts';
-import { Card, CardContent, CardMedia, Typography, Grid, Container, Box } from '@mui/material';
+import {
+  Grid,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  IconButton,
+  Box,
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Restaurant } from '../types';
 
-interface Restaurant {
-  id: number;
-  name: string;
-  address: string;
-  email: string;
-  phone: string;
+interface RestaurantListProps {
+  restaurants: Restaurant[];
+  handleOpen: (restaurant?: Partial<Restaurant>) => void;
+  handleDelete: (id: number) => void;
 }
 
-const fetchRestaurants = async (): Promise<Restaurant[]> => {
-  const { data } = await apiClient.get<Restaurant[]>('/api/restaurants');
-  return data;
-};
-
-const RestaurantList: React.FC = () => {
-  const { data, error, isLoading } = useQuery<Restaurant[], Error>({
-    queryKey: ['restaurants'],
-    queryFn: fetchRestaurants,
-  });
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error fetching restaurants: {error.message}</div>;
-  }
-
-  const restaurants: Restaurant[] = Array.isArray(data) ? data : [];
-
+const RestaurantList: React.FC<RestaurantListProps> = ({
+  restaurants,
+  handleOpen,
+  handleDelete,
+}) => {
   return (
-    <Container>
-      <Box sx={{ mt: 4 }}>
-        <Typography variant="h4">
-          Restaurants
-        </Typography>
-        {restaurants.length === 0 ? (
-          <Typography component="p" variant="caption" color="text.secondary">No restaurants found</Typography>
-        ) : (
-          <Grid container spacing={4}>
-            {restaurants.map((restaurant) => (
-              <Grid item key={restaurant.id} xs={12} sm={6} md={4}>
-                <Card>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image="https://via.placeholder.com/150"
-                    alt={restaurant.name}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {restaurant.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {restaurant.address}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {restaurant.email}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {restaurant.phone}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        )}
-      </Box>
-    </Container>
+    <Grid container spacing={4}>
+      {restaurants.map((restaurant) => (
+        <Grid item key={restaurant.id} xs={12} sm={6} md={4}>
+          <Card
+            sx={{
+              position: 'relative',
+              '&:hover .actions': { display: 'flex' },
+            }}
+          >
+            <CardMedia
+              component="img"
+              height="140"
+              image="https://via.placeholder.com/150"
+              alt={restaurant.name}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {restaurant.name}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {restaurant.address}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {restaurant.email}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {restaurant.phone}
+              </Typography>
+            </CardContent>
+            <Box
+              className="actions"
+              sx={{
+                display: 'none',
+                position: 'absolute',
+                top: 8,
+                right: 8,
+                flexDirection: 'column',
+              }}
+            >
+              <IconButton
+                color="primary"
+                onClick={() => handleOpen(restaurant)}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                color="secondary"
+                onClick={() => handleDelete(restaurant.id)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
+          </Card>
+        </Grid>
+      ))}
+      <Grid item xs={12} sm={6} md={4}>
+        <Card
+          onClick={() => handleOpen()}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
+          }}
+        >
+          <AddIcon fontSize="large" />
+        </Card>
+      </Grid>
+    </Grid>
   );
 };
 

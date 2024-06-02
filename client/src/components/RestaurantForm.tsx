@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextField, Button, Typography, Box, Modal } from '@mui/material';
-import useRestaurantForm from '../hooks/useRestaurantForm';
+import useRestaurantForm from '../hooks/useRestaurantForm.ts';
 
 interface RestaurantFormProps {
   initialData?: Partial<Restaurant>;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from "../../firebaseConfig"
+import { auth } from '../../firebaseConfig';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 
 const Register: React.FC = () => {
@@ -9,7 +9,13 @@ const Register: React.FC = () => {
 
   const handleRegister = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const token = await userCredential.user.getIdToken();
+      localStorage.setItem('token', token);
       alert('Registered successfully');
     } catch (error) {
       console.error('Error registering:', error);
@@ -39,7 +45,12 @@ const Register: React.FC = () => {
           fullWidth
           margin="normal"
         />
-        <Button variant="contained" color="primary" onClick={handleRegister} fullWidth>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleRegister}
+          fullWidth
+        >
           Register
         </Button>
       </Box>

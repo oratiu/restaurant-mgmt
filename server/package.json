@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "DEV_ENV=true ts-node-dev --respawn src/index.ts",
+    "start-prod": "ts-node src/index.ts",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\"",
+    "seed": "ts-node src/seeder.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,18 +16,23 @@
   "dependencies": {
     "@apollo/server": "^4.10.4",
     "@graphql-tools/schema": "^10.0.4",
+    "apollo-server-express": "^3.13.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "chance": "^1.1.11",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "firebase-admin": "^12.1.1",
     "graphql": "^16.8.1",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.10.0",
     "pg": "^8.11.5",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.3",
-    "sequelize-cli": "^6.6.2"
+    "sequelize-cli": "^6.6.2",
+    "sequelize-typescript": "^2.1.6",
+    "ts-node-dev": "^2.0.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
